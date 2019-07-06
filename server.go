@@ -8,6 +8,8 @@ import (
 	"strconv"
 )
 
+const port = 8000
+
 func getItems(w http.ResponseWriter, r *http.Request)  {
 
 	titles := []string{
@@ -40,7 +42,8 @@ func getItems(w http.ResponseWriter, r *http.Request)  {
 	for i := range titles {
 		id := i + 1
 		title := titles[i]
-		imageUrl := strconv.Itoa((i % 12) + 1) + ".jpg"
+		imageName := strconv.Itoa((i % 12) + 1) + ".jpg"
+		imageUrl := "http://localhost:" + strconv.Itoa(port) + "/" + imageName
 		item := models.Item{Id:id, Title: title, ImageUrl: imageUrl}
 		items = append(items, item)
 	}
@@ -57,7 +60,8 @@ func getItems(w http.ResponseWriter, r *http.Request)  {
 
 func main() {
 	http.HandleFunc("/items", getItems)
-	err := http.ListenAndServe(":8000", nil)
+	http.Handle("/", http.FileServer(http.Dir("assets/images")))
+	err := http.ListenAndServe(":" + strconv.Itoa(port), nil)
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}
