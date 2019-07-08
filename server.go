@@ -12,43 +12,9 @@ const port = 8000
 
 func getItems(w http.ResponseWriter, r *http.Request)  {
 
-	titles := []string{
-		"aDOPE",
-		"aaLUCIFER",
-		"aバッド・ブラッド悲しみのマフィア",
-		"aaサバイバー",
-		"aオレンジイズニューブラック",
-		"aaストレンジャーシングス",
-		"aDARK",
-		"aaブラック・ミラー",
-		"aシャフト",
-		"aaジェシカジョーンズ",
-		"aブラック・ミラ バンダースナッチ",
-		"aaWHATIF 選択の連鎖",
-		"aDOPE",
-		"aLUCIFER",
-		"aバッド・ブラッド悲しみのマフィア",
-		"aサバイバー",
-		"aオレンジイズニューブラック",
-		"aストレンジャーシングス",
-		"aDARK",
-		"aブラック・ミラー",
-		"aシャフト",
-		"aジェシカジョーンズ",
-		"aブラック・ミラ バンダースナッチ",
-		"aWHATIF 選択の連鎖",
-	}
-	var items []models.Item
-	for i := range titles {
-		id := i + 1
-		title := titles[i]
-		imageName := strconv.Itoa((i % 12) + 1) + ".jpg"
-		imageUrl := "http://localhost:" + strconv.Itoa(port) + "/" + imageName
-		item := models.Item{Id:id, Title: title, ImageUrl: imageUrl}
-		items = append(items, item)
-	}
+	q := r.URL.Query().Get("query")
 
-	res,err := json.Marshal(items)
+	res,err := json.Marshal(models.GetAllItems().Filter(q))
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
