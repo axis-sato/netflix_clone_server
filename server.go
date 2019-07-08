@@ -5,10 +5,7 @@ import (
 	"github.com/c8112002/netflix_clone_server/models"
 	"log"
 	"net/http"
-	"strconv"
 )
-
-const port = 8000
 
 func getItems(w http.ResponseWriter, r *http.Request)  {
 
@@ -27,7 +24,9 @@ func getItems(w http.ResponseWriter, r *http.Request)  {
 func main() {
 	http.HandleFunc("/items", getItems)
 	http.Handle("/", http.FileServer(http.Dir("assets/images")))
-	err := http.ListenAndServe(":" + strconv.Itoa(port), nil)
+
+	err := http.ListenAndServe(":8000", nil)
+
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}

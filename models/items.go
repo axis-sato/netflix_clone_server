@@ -40,7 +40,7 @@ func GetAllItems() Items {
 		id := i + 1
 		title := titles[i]
 		imageName := strconv.Itoa((i % 12) + 1) + ".jpg"
-		imageUrl := "http://localhost:" + strconv.Itoa(8000) + "/" + imageName
+		imageUrl := "http://localhost:8000/" + imageName
 		item := Item{Id:id, Title: title, ImageUrl: imageUrl}
 		items = append(items, item)
 	}
